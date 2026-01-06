@@ -1,4 +1,4 @@
-import { IsInt, Min } from 'class-validator';
+import { IsInt, Min, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateChapterDto {
@@ -12,9 +12,9 @@ export class CreateChapterDto {
   chapterNumber: number;
 
   @ApiProperty({
-    example: 1,
-    description: 'ID of the book this chapter belongs to',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+    description: 'UUID of the book this chapter belongs to',
   })
-  @IsInt()
-  bookId: number;
+  @IsUUID()
+  bookId: string;
 }

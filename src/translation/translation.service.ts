@@ -49,7 +49,7 @@ export class TranslationService {
     return new PaginatedResponseDto(data, total, page, limit);
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const translation = await this.prisma.bibleTranslation.findUnique({
       where: { id },
       include: {
@@ -66,7 +66,7 @@ export class TranslationService {
     return translation;
   }
 
-  async update(id: number, updateTranslationDto: UpdateTranslationDto) {
+  async update(id: string, updateTranslationDto: UpdateTranslationDto) {
     // Check if translation exists
     await this.findOne(id);
 
@@ -99,7 +99,7 @@ export class TranslationService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     // Check if translation exists
     await this.findOne(id);
 

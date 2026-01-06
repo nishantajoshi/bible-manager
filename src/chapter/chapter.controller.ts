@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Query,
-  ParseIntPipe,
+  ParseUUIDPipe,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -50,7 +50,7 @@ export class ChapterController {
   })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  @ApiQuery({ name: 'bookId', required: false, type: Number })
+  @ApiQuery({ name: 'bookId', required: false, type: String })
   findAll(@Query() filterDto: FilterChapterDto) {
     return this.chapterService.findAll(
       filterDto.page,
@@ -61,20 +61,20 @@ export class ChapterController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a chapter by ID' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Chapter found',
     type: Chapter,
   })
   @ApiResponse({ status: 404, description: 'Chapter not found' })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.chapterService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a chapter' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Chapter updated',
@@ -84,7 +84,7 @@ export class ChapterController {
   @ApiResponse({ status: 400, description: 'Book not found' })
   @ApiResponse({ status: 409, description: 'Chapter number conflict' })
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateChapterDto: UpdateChapterDto,
   ) {
     return this.chapterService.update(id, updateChapterDto);
@@ -93,10 +93,10 @@ export class ChapterController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a chapter' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({ status: 204, description: 'Chapter deleted' })
   @ApiResponse({ status: 404, description: 'Chapter not found' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.chapterService.remove(id);
   }
 }

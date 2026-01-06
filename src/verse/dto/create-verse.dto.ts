@@ -1,4 +1,11 @@
-import { IsInt, Min, IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import {
+  IsInt,
+  Min,
+  IsString,
+  IsNotEmpty,
+  MaxLength,
+  IsUUID,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateVerseDto {
@@ -22,9 +29,9 @@ export class CreateVerseDto {
   text: string;
 
   @ApiProperty({
-    example: 1,
-    description: 'ID of the chapter this verse belongs to',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+    description: 'UUID of the chapter this verse belongs to',
   })
-  @IsInt()
-  chapterId: number;
+  @IsUUID()
+  chapterId: string;
 }

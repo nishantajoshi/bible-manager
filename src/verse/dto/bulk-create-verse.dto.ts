@@ -1,4 +1,10 @@
-import { IsInt, IsArray, ValidateNested, ArrayMinSize } from 'class-validator';
+import {
+  IsInt,
+  IsArray,
+  ValidateNested,
+  ArrayMinSize,
+  IsUUID,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, MaxLength, Min } from 'class-validator';
@@ -24,11 +30,11 @@ class VerseDataDto {
 
 export class BulkCreateVerseDto {
   @ApiProperty({
-    example: 1,
-    description: 'ID of the chapter for all verses',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+    description: 'UUID of the chapter for all verses',
   })
-  @IsInt()
-  chapterId: number;
+  @IsUUID()
+  chapterId: string;
 
   @ApiProperty({
     type: [VerseDataDto],

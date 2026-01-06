@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Query,
-  ParseIntPipe,
+  ParseUUIDPipe,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -58,20 +58,20 @@ export class TranslationController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a translation by ID' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Translation found',
     type: Translation,
   })
   @ApiResponse({ status: 404, description: 'Translation not found' })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.translationService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a translation' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Translation updated',
@@ -83,7 +83,7 @@ export class TranslationController {
     description: 'Conflict with existing translation',
   })
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateTranslationDto: UpdateTranslationDto,
   ) {
     return this.translationService.update(id, updateTranslationDto);
@@ -92,10 +92,10 @@ export class TranslationController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a translation' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({ status: 204, description: 'Translation deleted' })
   @ApiResponse({ status: 404, description: 'Translation not found' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.translationService.remove(id);
   }
 }

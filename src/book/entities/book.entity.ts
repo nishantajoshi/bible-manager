@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Book {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   name: string;
@@ -17,7 +17,7 @@ export class Book {
   testament: string;
 
   @ApiProperty()
-  translationId: number;
+  translationId: string;
 
   @ApiProperty()
   createdAt: Date;

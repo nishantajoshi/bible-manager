@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Query,
-  ParseIntPipe,
+  ParseUUIDPipe,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -68,7 +68,7 @@ export class VerseController {
   })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  @ApiQuery({ name: 'chapterId', required: false, type: Number })
+  @ApiQuery({ name: 'chapterId', required: false, type: String })
   findAll(@Query() filterDto: FilterVerseDto) {
     return this.verseService.findAll(
       filterDto.page,
@@ -79,20 +79,20 @@ export class VerseController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a verse by ID' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Verse found',
     type: Verse,
   })
   @ApiResponse({ status: 404, description: 'Verse not found' })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.verseService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a verse' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Verse updated',
@@ -102,7 +102,7 @@ export class VerseController {
   @ApiResponse({ status: 400, description: 'Chapter not found' })
   @ApiResponse({ status: 409, description: 'Verse number conflict' })
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateVerseDto: UpdateVerseDto,
   ) {
     return this.verseService.update(id, updateVerseDto);
@@ -111,10 +111,10 @@ export class VerseController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a verse' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({ status: 204, description: 'Verse deleted' })
   @ApiResponse({ status: 404, description: 'Verse not found' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.verseService.remove(id);
   }
 }

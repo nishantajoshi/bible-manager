@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Translation {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   name: string;

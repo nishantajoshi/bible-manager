@@ -115,7 +115,7 @@ export class VerseService {
     };
   }
 
-  async findAll(page: number = 1, limit: number = 50, chapterId?: number) {
+  async findAll(page: number = 1, limit: number = 50, chapterId?: string) {
     const skip = (page - 1) * limit;
 
     const where = chapterId ? { chapterId } : {};
@@ -144,7 +144,7 @@ export class VerseService {
     return new PaginatedResponseDto(data, total, page, limit);
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const verse = await this.prisma.verse.findUnique({
       where: { id },
       include: {
@@ -167,7 +167,7 @@ export class VerseService {
     return verse;
   }
 
-  async update(id: number, updateVerseDto: UpdateVerseDto) {
+  async update(id: string, updateVerseDto: UpdateVerseDto) {
     // Check if verse exists
     await this.findOne(id);
 
@@ -229,7 +229,7 @@ export class VerseService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     // Check if verse exists
     await this.findOne(id);
 

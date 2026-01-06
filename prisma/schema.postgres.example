@@ -1,16 +1,17 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Example PostgreSQL-optimized schema (for future reference)
+// This is what your schema could look like when migrating to PostgreSQL
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model BibleTranslation {
-  id           String   @id @default(uuid())
+  id           String   @id @default(uuid()) @db.Uuid
   name         String   @unique
   abbreviation String   @unique
   language     String
@@ -25,12 +26,12 @@ model BibleTranslation {
 }
 
 model Book {
-  id            String           @id @default(uuid())
+  id            String           @id @default(uuid()) @db.Uuid
   name          String
   abbreviation  String
   bookNumber    Int
   testament     String
-  translationId String
+  translationId String           @db.Uuid
   translation   BibleTranslation @relation(fields: [translationId], references: [id], onDelete: Cascade)
   chapters      Chapter[]
   createdAt     DateTime         @default(now())
@@ -42,9 +43,9 @@ model Book {
 }
 
 model Chapter {
-  id            String   @id @default(uuid())
+  id            String   @id @default(uuid()) @db.Uuid
   chapterNumber Int
-  bookId        String
+  bookId        String   @db.Uuid
   book          Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
   verses        Verse[]
   createdAt     DateTime @default(now())
@@ -56,15 +57,24 @@ model Chapter {
 }
 
 model Verse {
-  id          String   @id @default(uuid())
+  id          String   @id @default(uuid()) @db.Uuid
   verseNumber Int
-  text        String
-  chapterId   String
+  text        String   @db.Text  // Explicitly use TEXT type for long content
+  chapterId   String   @db.Uuid
   chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@unique([chapterId, verseNumber])
   @@index([chapterId])
+  // Optional: Add full-text search index for verses
+  // @@index([text], type: Gin)
   @@map("verses")
 }
+
+// Benefits of @db.Uuid in PostgreSQL:
+// 1. Storage: 16 bytes vs 36 bytes (55% smaller)
+// 2. Performance: Faster comparisons and joins
+// 3. Validation: Database-level UUID validation
+// 4. Indexing: More efficient B-tree indexes
+

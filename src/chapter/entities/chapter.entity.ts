@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Chapter {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   chapterNumber: number;
 
   @ApiProperty()
-  bookId: number;
+  bookId: string;
 
   @ApiProperty()
   createdAt: Date;

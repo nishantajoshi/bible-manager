@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Verse {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   verseNumber: number;
@@ -11,7 +11,7 @@ export class Verse {
   text: string;
 
   @ApiProperty()
-  chapterId: number;
+  chapterId: string;
 
   @ApiProperty()
   createdAt: Date;

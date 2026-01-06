@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Query,
-  ParseIntPipe,
+  ParseUUIDPipe,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -50,7 +50,7 @@ export class BookController {
   })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  @ApiQuery({ name: 'translationId', required: false, type: Number })
+  @ApiQuery({ name: 'translationId', required: false, type: String })
   findAll(@Query() filterDto: FilterBookDto) {
     return this.bookService.findAll(
       filterDto.page,
@@ -61,20 +61,20 @@ export class BookController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a book by ID' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Book found',
     type: Book,
   })
   @ApiResponse({ status: 404, description: 'Book not found' })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.bookService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a book' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({
     status: 200,
     description: 'Book updated',
@@ -84,7 +84,7 @@ export class BookController {
   @ApiResponse({ status: 400, description: 'Translation not found' })
   @ApiResponse({ status: 409, description: 'Book number conflict' })
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateBookDto: UpdateBookDto,
   ) {
     return this.bookService.update(id, updateBookDto);
@@ -93,10 +93,10 @@ export class BookController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a book' })
-  @ApiParam({ name: 'id', type: Number })
+  @ApiParam({ name: 'id', type: String })
   @ApiResponse({ status: 204, description: 'Book deleted' })
   @ApiResponse({ status: 404, description: 'Book not found' })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.bookService.remove(id);
   }
 }

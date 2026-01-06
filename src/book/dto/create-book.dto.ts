@@ -1,4 +1,12 @@
-import { IsString, IsNotEmpty, IsInt, Min, Max, IsIn } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsInt,
+  Min,
+  Max,
+  IsIn,
+  IsUUID,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto {
@@ -39,9 +47,9 @@ export class CreateBookDto {
   testament: string;
 
   @ApiProperty({
-    example: 1,
-    description: 'ID of the Bible translation',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+    description: 'UUID of the Bible translation',
   })
-  @IsInt()
-  translationId: number;
+  @IsUUID()
+  translationId: string;
 }

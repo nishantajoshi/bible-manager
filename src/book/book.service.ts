@@ -49,7 +49,7 @@ export class BookService {
     });
   }
 
-  async findAll(page: number = 1, limit: number = 20, translationId?: number) {
+  async findAll(page: number = 1, limit: number = 20, translationId?: string) {
     const skip = (page - 1) * limit;
 
     const where = translationId ? { translationId } : {};
@@ -70,7 +70,7 @@ export class BookService {
     return new PaginatedResponseDto(data, total, page, limit);
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const book = await this.prisma.book.findUnique({
       where: { id },
       include: {
@@ -88,7 +88,7 @@ export class BookService {
     return book;
   }
 
-  async update(id: number, updateBookDto: UpdateBookDto) {
+  async update(id: string, updateBookDto: UpdateBookDto) {
     // Check if book exists
     await this.findOne(id);
 
@@ -143,7 +143,7 @@ export class BookService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     // Check if book exists
     await this.findOne(id);
 
